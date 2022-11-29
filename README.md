@@ -26,14 +26,14 @@ revisados a lo largo del curso para determinar la funcionalidad más eficiente. 
 análisis de complejidad, tanto analíticamente cómo experimentalmente, de las variaciones en las 
 implementaciones. Considerando una cantidad de canciones que permita evidenciar y contrastar el tiempo de 
 ejecución. Actividades por realizar:
-a. Investigar la implementación necesaria para poder reproducir archivos de música dentro de Python.
-b. Desarrollar los requerimientos mínimos para la funcionalidad apropiada del programa y nombres de 
+- Investigar la implementación necesaria para poder reproducir archivos de música dentro de Python.
+- Desarrollar los requerimientos mínimos para la funcionalidad apropiada del programa y nombres de 
 funciones.
-c. Plantear un algoritmo de prueba que permita analizar que la funcionalidad de las implementaciones
+- Plantear un algoritmo de prueba que permita analizar que la funcionalidad de las implementaciones
 es correcta y que muestre su rendimiento.
-d. Plantear hipótesis de cuáles estructuras y algoritmos consideramos que resultarán los más eficientes.
-e. Realizar las diferentes implementaciones del programa alternando las estructuras y algoritmos 
+- Plantear hipótesis de cuáles estructuras y algoritmos consideramos que resultarán los más eficientes.
+- Realizar las diferentes implementaciones del programa alternando las estructuras y algoritmos 
 utilizados para contrastar su rendimiento.
-a. Manejo de estructuras de datos para representar las playlists y cola de reproducción
-b. Algoritmos de Sorting para funcionalidad de búsqueda
-g. Presentar todos los resultados obtenidos y la conclusión de cuál resultó ser la más eficiente
+- Manejo de estructuras de datos para representar las playlists y cola de reproducción
+- Algoritmos de Sorting para funcionalidad de búsqueda
+- Presentar todos los resultados obtenidos y la conclusión de cuál resultó ser la más eficiente
