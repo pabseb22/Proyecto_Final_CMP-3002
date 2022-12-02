@@ -1,11 +1,13 @@
 # In order to function it needs to be installed as: "pip3 install audioplayer" in the terminal.
 import glob
 from audioplayer import AudioPlayer
+import os
 
 def Get_Music(path):
     for song in glob.glob(path):
+        os.system('cls')
         print("Playing Song: ", song)
-        music = AudioPlayer('eddy.mp3')
+        music = AudioPlayer(song)
         try:
             music.play()
         except:
@@ -24,6 +26,7 @@ def Get_Music(path):
 def main_function():
     control = True
     while control == True:
+        os.system('cls')
         print("!Welcome!")
         print("Please choose an option")
         print("1. Play a Song")
