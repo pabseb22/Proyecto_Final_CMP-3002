@@ -29,4 +29,4 @@ vamos a utilizar y como instalarla.
 - Merge_PLaylists(): -> Permite unir dos playlist eliminando las canciones repetidas.
 
 # Links Importantes:
-- https://www.geeksforgeeks.org/play-sound-in-python/
+- https://www.pygame.org/docs/ref/music.html
