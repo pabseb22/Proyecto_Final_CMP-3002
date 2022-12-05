@@ -8,9 +8,11 @@ class Stack(object):
     Implementation of the stack data structure
     """
 
-    def __init__(self, n):
+    def __init__(self, n, name):
         self.l = 0
         self.n = n
+        self.name = name
+        self.liked = False
         self.stack = self._create_stack(self.n)        
     
     def _create_stack(self, n):
@@ -68,13 +70,13 @@ class Stack(Stack):
 # Main Function Startup
 def start_Project():
     global playlists
-    playlists = Stack(100)
+    playlists = Stack(100, "playlists")
 
     global auxiliar
-    auxiliar = Stack(100)
+    auxiliar = Stack(100, "auxiliar")
 
     global play_queue
-    play_queue = Stack(100)
+    play_queue = Stack(100, "play_queue")
 
 
 
@@ -82,80 +84,302 @@ def start_Project():
 # Functions Required in Main
 
 def create_Playlist(name):
-    name = Stack(100)
+    name = Stack(100, name)
     playlists.push(name)
-    return name
 
 def rename_Playlist(name, newname):
-    return name, newname
+    while not playlists.empty():
+        if(playlists.top().name == name):
+            playlists.top().name = newname
+        auxiliar.push(playlists.pop())
+    while not auxiliar.empty():
+        playlists.push(auxiliar.pop())
 
 def delete_Playlist(name):
-    return name
+    while not playlists.empty():
+        if(playlists.top().name == name):
+            playlists.pop()
+        else:
+            auxiliar.push(playlists.pop())
+    while not auxiliar.empty():
+        playlists.push(auxiliar.pop())
 
 def show_Playlists():
-    copy = playlists
-    for i in range (0, playlists.size()):
-        print(copy.top())
-        copy.pop()
-    return 0
+    while not playlists.empty():
+        print("--> " + playlists.top().name)
+        auxiliar.push(playlists.pop())
+    while not auxiliar.empty():
+        playlists.push(auxiliar.pop())
 
 def play_Playlist(name):
-    return name
+    while not playlists.empty():
+        if(playlists.top().name == name):
+            play_Music(playlists.top())
+            auxiliar.push(playlists.pop())
+        else:
+            auxiliar.push(playlists.pop())
+    while not auxiliar.empty():
+        playlists.push(auxiliar.pop())
 
-def merge_Playlists(name1, name2):
-    return name1, name2
+def add_Song(song, playlist):
+    while not playlists.empty():
+        if(playlists.top().name == playlist):
+            print(add_Song_to_Playlist(playlists.top(), song))
+            time.sleep(2)
+            auxiliar.push(playlists.pop())
+        else:
+            auxiliar.push(playlists.pop())
+    while not auxiliar.empty():
+        playlists.push(auxiliar.pop())
 
-def add_Song(name, playlist):
-    return name, playlist
+def delete_Song(song, playlist):
+    while not playlists.empty():
+        if(playlists.top().name == playlist):
+            delete_Song_from_Stack(playlists.top(), song)
+            auxiliar.push(playlists.pop())
+        else:
+            auxiliar.push(playlists.pop())
+    while not auxiliar.empty():
+        playlists.push(auxiliar.pop())
 
-def delete_Song(name, playlist):
-    return name, playlist
+def search_Song(song, playlist):
+    while not playlists.empty():
+        if(playlists.top().name == playlist):
+            print(search_Song_in_Stack(playlists.top(), song))
+            time.sleep(2)
+            auxiliar.push(playlists.pop())
+        else:
+            auxiliar.push(playlists.pop())
+    while not auxiliar.empty():
+        playlists.push(auxiliar.pop())
 
-def search_Song(name, playlist):
-    return name, playlist
+def like_Song(song, playlist):
+    while not playlists.empty():
+        if(playlists.top().name == playlist):
+            print(like_Song_in_Stack(playlists.top(), song))
+            time.sleep(2)
+            auxiliar.push(playlists.pop())
+        else:
+            auxiliar.push(playlists.pop())
+    while not auxiliar.empty():
+        playlists.push(auxiliar.pop())
 
-def like_Song(name, playlist):
-    return name, playlist
 
-def play_Song(name, playlist):
-    return name, playlist
+def play_Song(song, playlist):
+    while not playlists.empty():
+        if(playlists.top().name == playlist):
+            print(play_Song_in_Stack(playlists.top(), song))
+            time.sleep(2)
+            auxiliar.push(playlists.pop())
+        else:
+            auxiliar.push(playlists.pop())
+    while not auxiliar.empty():
+        playlists.push(auxiliar.pop())
 
 def show_Playlist_Songs(playlist):
-    return playlist
+    while not playlists.empty():
+        if(playlists.top().name == playlist):
+            show_playlist(playlists.top())
+            key = input("Press any key to continue")
+            auxiliar.push(playlists.pop())
+        else:
+            auxiliar.push(playlists.pop())
+    while not auxiliar.empty():
+        playlists.push(auxiliar.pop())
 
-def add_Queue_Song(name):
-    return name
+def add_Queue_Song(song, playlist):
+    while not playlists.empty():
+        if(playlists.top().name == playlist):
+            print(add_Song_to_Queue(playlists.top(), song))
+            time.sleep(2)
+            auxiliar.push(playlists.pop())
+        else:
+            auxiliar.push(playlists.pop())
+    while not auxiliar.empty():
+        playlists.push(auxiliar.pop())
 
 def show_Queue():
-    return 0
+    print("")
+    while not play_queue.empty():
+        print("--> " + play_queue.top())
+        time.sleep(2)
+        auxiliar.push(play_queue.pop())
+    while not auxiliar.empty():
+        play_queue.push(auxiliar.pop())
 
 def empty_Queue():
-    return 0
+    while not play_queue.empty():
+        play_queue.pop()
 
-def delete_From_Queue(name):
-    return name
+def delete_From_Queue(song):
+    song += ".mp3"
+    while not play_queue.empty():
+        if (song.lower().replace(" ", "") == play_queue.top().split('- ',1)[1].lower().replace(" ", "")):
+            play_queue.pop()
+        else:
+            auxiliar.push(play_queue.pop())
+    while not auxiliar.empty():
+        play_queue.push(auxiliar.pop())
 
+
+def play_Queue():
+    while not play_queue.empty():
+        os.system('cls')
+        print("Playing Song: ", play_queue.top())
+        music = AudioPlayer(play_queue.top())
+        try:
+            music.play()
+        except:
+            print("Song not available")
+        print("Options:")
+        print("1. Next Song")
+        print("2. Return")
+        print("Please enter your option: ")
+        inp = input("--> ")
+        if(inp == '1'):
+            auxiliar.push(play_queue.pop())
+            music.stop()
+        elif( inp == '2'):
+            music.stop()
+            break
+    while not auxiliar.empty():
+        play_queue.push(auxiliar.pop())
 
 import os
 import glob
 from audioplayer import AudioPlayer
 
-def Get_Music(path):
-    for song in glob.glob(path):
+def play_Music(stack):
+    while not stack.empty():
         os.system('cls')
-        print("Playing Song: ", song)
-        music = AudioPlayer(song)
+        print("Playing Song: ", stack.top())
+        music = AudioPlayer(stack.top())
         try:
             music.play()
         except:
-            print("Ups copyright!")
+            print("Song not available")
         print("Options:")
         print("1. Next Song")
-        print("2. Return Home")
+        print("2. Return")
         print("Please enter your option: ")
         inp = input("--> ")
         if(inp == '1'):
+            auxiliar.push(stack.pop())
             music.stop()
         elif( inp == '2'):
+            music.stop()
             break
+    while not auxiliar.empty():
+        stack.push(auxiliar.pop())
+
+def add_Song_to_Playlist(stack, song):
+    song += ".mp3"
+    for s in glob.glob("songs/*.mp3"):
+        if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
+            stack.push(s)
+            return "Song " + song + " added"
+        elif("end.mp3" == s.split('- ',1)[1]):
+            return "Not Found"
+
+def delete_Song_from_Stack(stack, song):
+    song += ".mp3"
+    while not stack.empty():
+        if (song.lower().replace(" ", "") == stack.top().split('- ',1)[1].lower().replace(" ", "")):
+            stack.pop()
+        else:
+            auxiliar.push(stack.pop())
+    while not auxiliar.empty():
+        stack.push(auxiliar.pop())
+
+def show_playlist(stack):
+    while not stack.empty():
+            print("--> " + stack.top())
+            auxiliar.push(stack.pop())
+    while not auxiliar.empty():
+        stack.push(auxiliar.pop())
+
+
+def search_Song_in_Stack(stack, song):
+    song += ".mp3"
+    founded = False
+    while not stack.empty():
+        if (song.lower().replace(" ", "") == stack.top().split('- ',1)[1].lower().replace(" ", "")):
+            founded = True
+            auxiliar.push(stack.pop())
+        else:
+            auxiliar.push(stack.pop())
+    while not auxiliar.empty():
+        stack.push(auxiliar.pop())
+    if founded:
+        return "Song Found in " + stack.name
+    else:
+        return "Not Found"
+
+def like_Song_in_Stack(stack, song):
+    song += ".mp3"
+    founded = False
+    while not stack.empty():
+        if (song.lower().replace(" ", "") == stack.top().split('- ',1)[1].lower().replace(" ", "")):
+            founded = True
+            stack.top().liked = True
+            auxiliar.push(stack.pop())
+        else:
+            auxiliar.push(stack.pop())
+    while not auxiliar.empty():
+        stack.push(auxiliar.pop())
+    if founded:
+
+        return "Song Liked in " + stack.name
+    else:
+        return "Not Found"
+
+def play_Song_in_Stack(stack, song):
+    song += ".mp3"
+    founded = False
+    while not stack.empty():
+        if (song.lower().replace(" ", "") == stack.top().split('- ',1)[1].lower().replace(" ", "")):
+            founded = True
+            song = stack.top()
+            auxiliar.push(stack.pop())
+        else:
+            auxiliar.push(stack.pop())
+    while not auxiliar.empty():
+        stack.push(auxiliar.pop())
+    if founded:
+
+        return play(song)
+    else:
+        return "Not Found"
+
+def play(song):
+    os.system('cls')
+    print("Playing Song: ", song)
+    music = AudioPlayer(song)
+    try:
+        music.play()
+        print("Press any key to stop playing")
+        key = input("--> ")
+        music.pause()
+        return "Operation Complete"
+    except:
+        return "Error while playing"
+    
+
+def add_Song_to_Queue(stack, song):
+    song += ".mp3"
+    founded = False
+    while not stack.empty():
+        if (song.lower().replace(" ", "") == stack.top().split('- ',1)[1].lower().replace(" ", "")):
+            founded = True
+            play_queue.push(stack.top())
+            auxiliar.push(stack.pop())
+        else:
+            auxiliar.push(stack.pop())
+    while not auxiliar.empty():
+        stack.push(auxiliar.pop())
+    if founded:
+        return "Song added to queue"
+    else:
+        return "Not Found"
+
 
