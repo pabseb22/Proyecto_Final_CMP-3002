@@ -278,7 +278,7 @@ def add_Song_to_Playlist(stack, song):
         if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
             stack.push(s)
             return "Song " + song + " added"
-        elif("end.mp3" == s.split('- ',1)[1]):
+        elif("Beat the Odds.mp3" == s.split('- ',1)[1]):
             return "Not Found"
 
 def delete_Song_from_Stack(stack, song):
