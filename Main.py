@@ -1,4 +1,4 @@
-from Stacks_Implementation import *
+from Arrays_Implementation import *
 
 class bcolors:
     HEADER = '\033[95m'
