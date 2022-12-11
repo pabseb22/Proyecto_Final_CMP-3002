@@ -2,6 +2,9 @@
 
 import ctypes
 import time
+import os
+import glob
+from audioplayer import AudioPlayer
 
 class Stack(object):
     """
@@ -245,9 +248,6 @@ def play_Queue():
     while not auxiliar.empty():
         play_queue.push(auxiliar.pop())
 
-import os
-import glob
-from audioplayer import AudioPlayer
 
 def play_Music(stack):
     while not stack.empty():
