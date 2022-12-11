@@ -219,7 +219,7 @@ def delete_Playlist(name):
 
 def play_Playlist(name):
     if playlists.get_head_node():
-        node=playlists.head_node()
+        node=playlists.get_head_node()
         while node:
             if(node.val.name==name):
                 play_Music(node.val)
@@ -232,7 +232,7 @@ def play_Playlist(name):
 
 def add_Song(song, playlist):
     if playlists.get_head_node():
-        node=playlists.head_node()
+        node=playlists.get_head_node()
         while node:
             if(node.val.name==playlist):
                 print(add_Song_to_Playlist(node.val, song))
@@ -255,7 +255,7 @@ def add_Song_to_Playlist(linkedlist, song):
 
 def delete_Song(song, playlist):
     if playlists.get_head_node():
-        node=playlists.head_node()
+        node=playlists.get_head_node()
         while node:
             if(node.val.name==playlist):
                 delete_Song_from_Linkedlist(node.val, song)
@@ -271,7 +271,7 @@ def delete_Song(song, playlist):
 def delete_Song_from_Linkedlist(linkedlist, song):
     song += ".mp3"
     if linkedlist.get_head_node():
-        node=linkedlist.head_node()
+        node=playlists.get_head_node()
         while node:
             if (song.lower().replace(" ", "") == str(node.val).split('- ',1)[1].lower().replace(" ", "")):
                 linkedlist.delete_node(song.lower().replace(" ", ""))
@@ -284,7 +284,7 @@ def delete_Song_from_Linkedlist(linkedlist, song):
 
 def play_Song(song, playlist):
     if playlists.get_head_node():
-        node=playlists.head_node()
+        node=playlists.get_head_node()
         while node:
             if(node.val.name==playlist):
                 play_Song_in_Linkedlist(node.val, song)
@@ -298,7 +298,7 @@ def play_Song(song, playlist):
 
 def search_Song(song, playlist):
     if playlists.get_head_node():
-        node=playlists.head_node()
+        node=playlists.get_head_node()
         while node:
             if(node.val.name==playlist):
                 print(search_Song_in_Linkedlist(node.val, song))
@@ -312,7 +312,7 @@ def search_Song(song, playlist):
 
 def show_Playlist_Songs(playlist):
     if playlists.get_head_node():
-        node=playlists.head_node()
+        node=playlists.get_head_node()
         while node:
             if(node.val.name==playlist):
                 print(show_playlist(node.val))
@@ -333,7 +333,7 @@ def show_Queue():
    
 def add_Queue_Song(song, playlist):
     if playlists.get_head_node():
-        node=playlists.head_node()
+        node=playlists.get_head_node()
         while node:
             if(node.val.name==playlist):
                 print(add_Song_to_Queue(node.val,song))
@@ -350,7 +350,7 @@ def empty_Queue():
 def delete_From_Queue(song):
     song += ".mp3"
     if play_queue.get_head_node():
-        node=play_queue.head_node()
+        node=play_queue.get_head_node()
         while node:
             if (song.lower().replace(" ", "") == str(node.val).split('- ',1)[1].lower().replace(" ", "")):
                 play_queue.delete_node(song.lower().replace(" ", ""))
@@ -412,7 +412,7 @@ def play_Song_in_Linkedlist(linkedlist, song):
     song += ".mp3"
     founded = False
     if linkedlist.get_head_node():
-        node=linkedlist.head_node()
+        node=linkedlist.get_head_node()
         while node:
             if (song.lower().replace(" ", "") == str(node.val).split('- ',1)[1].lower().replace(" ", "")):
                 founded = True
@@ -431,7 +431,7 @@ def search_Song_in_Linkedlist(linkedlist, song):
     song += ".mp3"
     founded = False
     if linkedlist.get_head_node():
-        node=linkedlist.head_node()
+        node=linkedlist.get_head_node()
         while node:
             if (song.lower().replace(" ", "") == str(node.val).split('- ',1)[1].lower().replace(" ", "")):
                 founded = True
@@ -452,7 +452,7 @@ def add_Song_to_Queue(linkedlist, song):
     song += ".mp3"
     founded = False
     if linkedlist.get_head_node():
-        node=linkedlist.head_node()
+        node=linkedlist.get_head_node()
         while node:
             if (song.lower().replace(" ", "") == str(node.val).split('- ',1)[1].lower().replace(" ", "")):
                 founded = True
@@ -485,17 +485,4 @@ def play(song):
 
 
 
-start_Project()
-create_Playlist("SALSA")
-create_Playlist("CUMBIA")
-
-show_Playlists()
-
-rename_Playlist("CUMBIA","REGGAE")
-
-show_Playlists()
-
-delete_Playlist("SALSA")
-
-show_Playlists()
 
