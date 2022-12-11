@@ -1,6 +1,6 @@
 #Linked List Implementation
 import ctypes
-
+import time
 class Node:
     """
     Implementation of a node
@@ -216,6 +216,273 @@ def delete_Playlist(name):
         print("Succesful")
     else:
         print("Failed")
+
+def play_Playlist(name):
+    if playlists.get_head_node():
+        node=playlists.head_node()
+        while node:
+            if(node.val.name==name):
+                play_Music(node.val)
+            else:
+                node=node.next_node
+        if node==None:
+            print("No playlist found")
+    else:
+        print("No playlists")
+
+def add_Song(song, playlist):
+    if playlists.get_head_node():
+        node=playlists.head_node()
+        while node:
+            if(node.val.name==playlist):
+                print(add_Song_to_Playlist(node.val, song))
+                time.sleep(2)
+            else:
+                node=node.next_node
+        if node==None:
+            print("No playlist found ")
+    else:
+        print("No playlists")
+
+def add_Song_to_Playlist(linkedlist, song):
+    song += ".mp3"
+    for s in glob.glob("songs/*.mp3"):
+        if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
+            linkedlist.insert_head(s)
+            return "Song " + song + " added"
+        elif("Beat the Odds.mp3" == s.split('- ',1)[1]):
+            return "Not Found"
+
+def delete_Song(song, playlist):
+    if playlists.get_head_node():
+        node=playlists.head_node()
+        while node:
+            if(node.val.name==playlist):
+                delete_Song_from_Linkedlist(node.val, song)
+                time.sleep(2)
+            else:
+                node=node.next_node
+        if node==None:
+            print("No playlist found ")
+    else:
+        print("No playlists")
+
+
+def delete_Song_from_Linkedlist(linkedlist, song):
+    song += ".mp3"
+    if linkedlist.get_head_node():
+        node=linkedlist.head_node()
+        while node:
+            if (song.lower().replace(" ", "") == str(node.val).split('- ',1)[1].lower().replace(" ", "")):
+                linkedlist.delete_node(song.lower().replace(" ", ""))
+            else:
+                node=node.next_node
+        if node==None:
+            print("No song found to delete")
+    else:
+        print("No Songs to delete")
+
+def play_Song(song, playlist):
+    if playlists.get_head_node():
+        node=playlists.head_node()
+        while node:
+            if(node.val.name==playlist):
+                play_Song_in_Linkedlist(node.val, song)
+                time.sleep(2)
+            else:
+                node=node.next_node
+        if node==None:
+            print("No playlist found ")
+    else:
+        print("No playlists")
+
+def search_Song(song, playlist):
+    if playlists.get_head_node():
+        node=playlists.head_node()
+        while node:
+            if(node.val.name==playlist):
+                print(search_Song_in_Linkedlist(node.val, song))
+                time.sleep(2)
+            else:
+                node=node.next_node
+        if node==None:
+            print("No playlist found ")
+    else:
+        print("No playlists")
+
+def show_Playlist_Songs(playlist):
+    if playlists.get_head_node():
+        node=playlists.head_node()
+        while node:
+            if(node.val.name==playlist):
+                print(show_playlist(node.val))
+                time.sleep(2)
+                key = input("Press any key to continue")
+            else:
+                node=node.next_node
+        if node==None:
+            print("No playlist found ")
+    else:
+        print("No playlists")
+def show_Queue():
+    if play_queue.get_head_node():
+        print(play_queue.list_traversed_1())
+    else:
+        print("No playlists")
+    print("")
+   
+def add_Queue_Song(song, playlist):
+    if playlists.get_head_node():
+        node=playlists.head_node()
+        while node:
+            if(node.val.name==playlist):
+                print(add_Song_to_Queue(node.val,song))
+                time.sleep(2)
+            else:
+                node=node.next_node
+        if node==None:
+            print("No playlist found ")
+    else:
+        print("No playlists")
+def empty_Queue():
+    node=play_queue.get_head_node()
+    node=None
+def delete_From_Queue(song):
+    song += ".mp3"
+    if play_queue.get_head_node():
+        node=play_queue.head_node()
+        while node:
+            if (song.lower().replace(" ", "") == str(node.val).split('- ',1)[1].lower().replace(" ", "")):
+                play_queue.delete_node(song.lower().replace(" ", ""))
+            else:
+                node=node.next_node
+        if node==None:
+            print("No song found to delete")
+    else:
+        print("No Songs to delete")
+
+def play_Queue():
+    node=play_queue.get_head_node()
+    while node:
+        os.system('cls')
+        print("Playing Song: ", str(node.val))
+        music = AudioPlayer(str(node.val))
+        try:
+            music.play()
+        except:
+            print("Song not available")
+        print("Options:")
+        print("1. Next Song")
+        print("2. Return")
+        print("Please enter your option: ")
+        inp = input("--> ")
+        if(inp == '1'):
+            node=node.next_node
+            music.stop()
+        elif( inp == '2'):
+            music.stop()
+            break
+
+import os
+import glob
+from audioplayer import AudioPlayer
+
+def play_Music(linkedlist):
+    node=linkedlist.get_head_node()
+    while node:
+        os.system('cls')
+        print("Playing Song: ", str(node.val))
+        music = AudioPlayer(str(node.val))
+        try:
+            music.play()
+        except:
+            print("Song not available")
+        print("Options:")
+        print("1. Next Song")
+        print("2. Return")
+        print("Please enter your option: ")
+        inp = input("--> ")
+        if(inp == '1'):
+            node=node.next_node
+            music.stop()
+        elif( inp == '2'):
+            music.stop()
+            break
+def play_Song_in_Linkedlist(linkedlist, song):
+    song += ".mp3"
+    founded = False
+    if linkedlist.get_head_node():
+        node=linkedlist.head_node()
+        while node:
+            if (song.lower().replace(" ", "") == str(node.val).split('- ',1)[1].lower().replace(" ", "")):
+                founded = True
+                song=str(node.val)
+            else:
+                node=node.next_node
+        if node==None:
+            print("No song found ")
+    else:
+        print("No Songs to play")
+    if founded:
+        return play(song)
+    else:
+        return "No song found"
+def search_Song_in_Linkedlist(linkedlist, song):
+    song += ".mp3"
+    founded = False
+    if linkedlist.get_head_node():
+        node=linkedlist.head_node()
+        while node:
+            if (song.lower().replace(" ", "") == str(node.val).split('- ',1)[1].lower().replace(" ", "")):
+                founded = True
+                song=str(node.val)
+            else:
+                node=node.next_node
+        if node==None:
+            print("No song found ")
+    else:
+        print("No Songs to play")
+    if founded:
+        return song
+    else:
+        return "No song found"
+def show_playlist(linkedlist):
+    return linkedlist.list_traversed()
+def add_Song_to_Queue(linkedlist, song):
+    song += ".mp3"
+    founded = False
+    if linkedlist.get_head_node():
+        node=linkedlist.head_node()
+        while node:
+            if (song.lower().replace(" ", "") == str(node.val).split('- ',1)[1].lower().replace(" ", "")):
+                founded = True
+                song=str(node.val)
+                play_queue.insert_head(song)
+
+            else:
+                node=node.next_node
+        if node==None:
+            print("No song found ")
+    else:
+        print("No Songs to add to queue")
+    if founded:
+        return "Song added to queue"
+    else:
+        return "Not found"
+
+def play(song):
+    os.system('cls')
+    print("Playing Song: ", song)
+    music = AudioPlayer(song)
+    try:
+        music.play()
+        print("Press any key to stop playing")
+        key = input("--> ")
+        music.pause()
+        return "Operation Complete"
+    except:
+        return "Error while playing"
+
 
 
 start_Project()
