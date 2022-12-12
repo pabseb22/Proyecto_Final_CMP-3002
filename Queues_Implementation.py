@@ -1,134 +1,211 @@
-
 import ctypes
 import time
 import os
 import glob
 from audioplayer import AudioPlayer
+
+# Ruta de la carpeta de canciones
+path = os.path.join(os.getcwd(),'music')
+music_list = ['song1','song2','song3','song4']
+
+
+
 """
     Implementation of the queue data structure
-""" 
-class Queue():
+"""
 
-  def _init_(self,n):
-      self.l = 0
-      self.n = n
-      self.queue = []
+class Queue(object):
 
-  """
-      El queue está lleno?
-  """ 
-  def is_full(self):
-      return len(self.queue) == self.n
+    def _init_(self, n, name):
+        self.l = 0
+        self.n = n
+        self.name = name
+        self.liked = False
+        self.queue = self._create_queue (self.n)
+        
+        
+    """
+      Create
+    """
     
-  """
-      Verifica que la queue no esté vacía
-  """
-  def is_empty (self):
-      return not len (self.queue)
-  """
-    Se añade elemento al final
-  """
+    def _create_queue(self,n):
+        return (n * ctypes.py_object)()
+    
+class QueueMusic(Queue):
+  #QUEUE FUNCTIONS
   def enqueue(self, element):
-    if self.is_full():
-      return "Warning: The Queue is full"
-    self.queue.append(element)
-    return self.queue
-    
-  """
-      Revisa si la queue está vacía, si no está vacía elimina el 
-      primer elemento.
-  """
+      """
+          Se añade elemento al final
+      """
+      if self.is_full():
+          return "Warning: The Queue is full"
+      self.queue[self.l]=element
+      self.l+=1
+      #return self.queue
+
   def dequeue(self):
+      """
+        Extrae el primer elemento
+      """
       if self.is_empty():
           return "Warning: The Queue is empty"
-      self.queue.pop()
-      return self.queue
-    
-  """
-      Muestra el primer elemento
-  """   
+      print(self.queue[0])
+      if self.l == 1:
+        self.queue[0] = ctypes.py_object
+        self.l = 0
+      else:
+        aux = self.l - 1
+        for i in range(aux):
+          self.queue[i] = self.queue[i+1]
+        self.queue[aux] = ctypes.py_object
+        self.l -= 1
+      #return self.queue
+
   def first(self):
-      return self.queue[0]
-
-
+    """
+      Muestra el primer elemento
+    """ 
+    return self.queue[0]    
+        
+  
+  def is_full(self):
+      """
+       Verifica que la queue no esté llena
+      """ 
+      return self.l == self.n
     
-    
-  """
-      Revisa el tamaño del queue
-  """  
+ 
+  def is_empty(self):
+      """
+      Verifica que la queue no esté vacía
+      """
+      return not self.l
+  
   def size(self):
-    return len(self.queue)
-
-
-  """
-      Main Function Startup
-  """
-
+      """
+      Revisa el tamaño del queue
+      """
+      return self.l
+        
   def start_Project():
       global playlists
-      playlists = Queue(100)
+      playlists = Queue(100, "playlists")
+
+      global auxiliar
+      auxiliar = Queue(100, "auxiliar")
 
       global play_queue
-      play_queue = Queue(100)
-  
-        
-  """
-    Funciones
-  """
-
+      play_queue = Queue(100, "play_queue")
+  #CRUD PLAYLIST
   def create_Playlist(name):
-      name = Queue(100)
+      """
+      Crear Plalist
+      """
+      name = Queue(100, name)
       playlists.enqueue(name)
-      return name
+      #return name
 
-  def rename_Playlist(name, newname):
-      return name, newname
+  def add_playlist(self, name):
+    """
+      Agregar playlist
+    """
+    self.enqueue(QueueMusic(100,name))
+  
+  def show_Playlists(self):
+    """
+      Mostrar Playlist
+    """
+    for i in range(self.l):
+      print(self.queue[i].name)
 
-  def delete_Playlist(name):
-      return name
+  def search_Playlist(self, name):
+    """
+      Buscar elemento en la cola
+    """ 
+    for i in range(self.l):
+      if name == self.queue[i].name:
+        return self.queue[i]
 
-  def show_Playlists():
-      copy = playlists
-      for i in range (0, playlists.size()):
-          print(copy.top())
-          copy.pop()
-      return 0
+    def rename_Playlist(self, name, newname):
+      """
+        Renombrar Playlist
+      """
+      playlist = self.search_Playlist(name)
+      playlist.name = newname
 
-  def play_Playlist(name):
-      return name
 
-  def merge_Playlists(name1, name2):
-      return name1, name2
+  def delete_Playlist(self,name):
+      """
+        Eliminar Playlist
+      """
+      for i in range(self.l):
+        if self.queue[i].name == name:
+          for j in range(i,self.l-1):
+            self.queue[j] = self.queue[j+1]
+          self.queue[self.l-1] = ctypes.py_object
+          self.l-=1
+          break
 
-  def add_Song(name, playlist):
-      return name, playlist
 
-  def delete_Song(name, playlist):
-      return name, playlist
+  def play_Playlist(self,name):
+      playlist = self.search_Playlist(name)
+      for i in range(playlist.l):
+        print(playlist.queue[i])
 
-  def search_Song(name, playlist):
-      return name, playlist
+  #CRUD SONG
+  
+  def add_Song(self,playlist_name,name):
+    """
+      Agregar Cancion
+    """   
+    playlist = self.search_Playlist(playlist_name)
+    playlist.enqueue(name)
+    print('Song add to ',name)
 
-  def like_Song(name, playlist):
-      return name, playlist
+  
+  def show_playlist(self,name):
+    """
+        Muestra los elementos de la lista
+    """  
+    playlist = self.search_Playlist(name)
+    for i in range(playlist.l):
+      print(playlist.queue[i])
 
-  def play_Song(name, playlist):
-      return name, playlist
+ 
 
-  def show_Playlist_Songs(playlist):
-      return playlist
+  def delete_Song(self,playlist_name,name):
+      """
+        Eliminar Cancion
+      """
+      playlist = self.search_Playlist(playlist_name)
+      for i in range(playlist.l):
+        if playlist.queue[i] == name:
+          for j in range(i,playlist.l-1):
+            playlist.queue[j] = playlist.queue[j+1]
+          playlist.queue[playlist.l-1] = ctypes.py_object
+          playlist.l-=1
+          break
 
-  def add_Queue_Song(name):
-      return name
 
-  def show_Queue():
-      return 0
+  def search_Song(self, song):
+      list_music = os.listdir(path)
+      if song in list_music:
+        return os.path.join(path,song)
+      else:
+        return 'Song doesn\'t exists in directory'
 
-  def empty_Queue():
-      return 0
 
-  def delete_From_Queue(name):
-      return name
+  def play_Song(self, song, playlist):
+      song = self.search_Playlist(self, song, playlist)
+      os.path.join(path,song)
+      music = AudioPlayer(song)
+      music.play()
+
+
+  def empty_Queue_Songs(self):
+    play_queue = QueueMusic(100, "play_queue")
+    print('Play Queue empty')
+    
       
   def Get_Music(path):
     for song in glob.glob(path):
