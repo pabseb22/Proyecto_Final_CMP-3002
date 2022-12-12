@@ -71,6 +71,23 @@ def start_Project():
 
 # Functions Required in Main
 
+def validate_Playlists():
+    return playlists.l != 0
+
+def validate_Playlist(playlist):
+    for x in range(playlists.l):
+        if playlists.array[x].name == playlist:
+            return True
+    return False
+
+def validate_Playlist_songs(playlist):
+    for x in range(playlists.l):
+        if playlists.array[x].name == playlist:
+            if playlists.array[x].l != 0:
+                return True
+            else:
+                return False
+
 def create_Playlist(name):
     name = Array(name)
     playlists.insert_to_tail(name)
@@ -111,12 +128,6 @@ def search_Song(song, playlist):
     for x in range(playlists.l):
         if playlists.array[x].name == playlist:
             search_Song_in_Stack(playlists.array[x], song)
-            time.sleep(2)
-
-def like_Song(song, playlist):
-    for x in range(playlists.l):
-        if playlists.array[x].name == playlist:
-            print(like_Song_in_Stack(playlists.array[x], song))
             time.sleep(2)
 
 def play_Song(song, playlist):
@@ -209,6 +220,7 @@ def add_Song_to_Playlist(array, song):
         elif("Beat the Odds.mp3" == s.split('- ',1)[1]):
             return "Not Found"
 
+
 def delete_Song_from_Stack(array, song): 
     for s in glob.glob("songs/*.mp3"):
         if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
@@ -270,3 +282,28 @@ def add_Song_to_Queue(array, song):
             play_queue.insert_to_tail(array.array[x])
             return "Song added to queue"
     return "Not Found"
+
+def add_Song_testing(song, playlist):
+    for x in range(playlists.l):
+        if playlists.array[x].name == playlist:
+            add_Song_to_Playlist_testing(playlists.array[x], song)
+
+def add_Song_to_Playlist_testing(array, song):
+    song += ".mp3"
+    for s in glob.glob("songs/*.mp3"):
+        if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
+            array.insert_to_tail(s)
+        elif("Beat the Odds.mp3" == s.split('- ',1)[1]):
+            break
+
+def delete_Song_testing(song, playlist):
+    song += ".mp3"
+    for x in range(playlists.l):
+        if playlists.array[x].name == playlist:
+            delete_Song_from_Array_testing(playlists.array[x], song)
+
+def delete_Song_from_Array_testing(array, song): 
+    for s in glob.glob("songs/*.mp3"):
+        if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
+            array.delete_element(s)
+            return

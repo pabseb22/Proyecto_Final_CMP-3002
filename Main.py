@@ -1,4 +1,4 @@
-from linked_list_Implementation import *
+from Queues_Implementation import *
 
 class bcolors:
     HEADER = '\033[95m'
@@ -100,17 +100,22 @@ def main_function():
                         name = input("\nPlease enter the name: --> ")
                         add_Song(name, playlist)
                     if(validate_Playlist_songs(playlist)):
-                        if(inp2 == '2'):  
+                        if(inp2 == '2'):
+                            print("Your songs are: ")
+                            show_Playlist_Songs(playlist)   
                             name = input("\nPlease enter the name: --> ")
                             delete_Song(name, playlist)
                         elif(inp2 == '3'): 
                             name = input("\nPlease enter the name: --> ")
                             search_Song(name, playlist)
-                        elif(inp2 == '4'): 
+                        elif(inp2 == '4'):
+                            print("Your songs are: ")
+                            show_Playlist_Songs(playlist) 
                             name = input("\nPlease enter the name: --> ")
                             play_Song(name, playlist)
                         elif(inp2 == '5'): 
                             show_Playlist_Songs(playlist)
+                            key = input("Press any key to continue")
                         elif(inp2 == '6'): 
                             play_Playlist(playlist)
                     if(inp2 == '7'): 
@@ -138,11 +143,10 @@ def main_function():
                     print(bcolors.OKBLUE + "Options\n" + bcolors.ENDC)
                     print("1. Add song to Queue")
                     print("2. Show Queue")
-                    print("3. Empty Queue")
-                    print("4. Delete From Queue")
-                    print("5. Change Playlist")
-                    print("6. Play Queue")
-                    print(bcolors.FAIL + "\n7. Return Home" + bcolors.ENDC)
+                    print("3. Delete From Queue")
+                    print("4. Change Playlist")
+                    print("5. Play Queue")
+                    print(bcolors.FAIL + "\n6. Return Home" + bcolors.ENDC)
                     print("\nPlease enter your option: ")
                     inp3 = input("\n--> ")
                     print("")
@@ -151,18 +155,18 @@ def main_function():
                         add_Queue_Song(name, playlist)
                     elif(inp3 == '2'):  
                         show_Queue()
+                        ext = input("Press any key to continue")
                     elif(inp3 == '3'): 
-                        empty_Queue()
-                    elif(inp3 == '4'): 
+                        print("Your Queue is: ")
+                        show_Queue()
                         name = input("\nPlease enter the name: --> ")
                         delete_From_Queue(name)
-                    elif(inp2 == '5'): 
+                    elif(inp3 == '4'): 
                         playlist = ""
                         continue
-                    elif(inp3 == '6'): 
-                        name = input("\nPlease enter the name: --> ")
+                    elif(inp3 == '5'): 
                         play_Queue()
-                    elif(inp3 == '7'):
+                    elif(inp3 == '6'):
                         control3 = False  
         elif(inp == '4'):
             os.system('cls')

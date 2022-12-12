@@ -133,9 +133,10 @@ class Singly_linked_list:
                     node.next_node = None
                     
                 else:
-                    print("Valor no se encuentra")
+                    return
         else:
             self.head_node = None
+
     def delete_node_1(self, value):#metodo eliminar playlist
         prev = self.head_node
         node = prev.next_node
@@ -166,7 +167,7 @@ class Singly_linked_list:
                     return True
                     
                 else:
-                    print("Valor no se encuentra")
+                    print("Not Found")
                     return False
         else:
             self.head_node = None
@@ -531,4 +532,56 @@ def play(song):
         return "Error while playing"
 
 
+def add_Song_testing(song, playlist):
+    if playlists.get_head_node()!= None:
+        node=playlists.get_head_node()
+        while node:
+            if(node.val.name==playlist):
+                add_Song_to_Playlist_testing(node.val, song)
+                break
+            node=node.next_node
+        if node==None:
+            return
+    else:
+        return
 
+def add_Song_to_Playlist_testing(linkedlist, song):
+    song += ".mp3"
+    for s in glob.glob("songs/*.mp3"):
+        if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
+            s_node=Node(s)
+            linkedlist.insert_head(s_node)
+            break
+        elif("Beat the Odds.mp3" == s.split('- ',1)[1]):
+            break
+
+def delete_Song_testing(song, playlist):
+    if playlists.get_head_node()!= None:
+        node=playlists.get_head_node()
+        while node:
+            if(node.val.name==playlist):
+                delete_Song_from_Linkedlist_testing(node.val, song)
+                break
+            node=node.next_node
+        if node==None:
+            return
+    else:
+        return
+
+
+def delete_Song_from_Linkedlist_testing(linkedlist, song):
+    song += ".mp3"
+    if linkedlist.get_head_node()!= None:
+        node=linkedlist.get_head_node()
+        while node:
+            if (song.lower().replace(" ", "") == node.val.split('- ',1)[1].lower().replace(" ", "")):
+                s_node=Node(song.lower().replace(" ", ""))
+                linkedlist.delete_node(s_node)
+                break
+            node=node.next_node
+        if node==None:
+            return
+    else:
+        return
+
+    
