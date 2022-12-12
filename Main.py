@@ -87,21 +87,21 @@ def main_function():
                 inp2 = input("\n--> ")
                 if(inp2 == '1'):
                     name = input("\nPlease enter the name: --> ")
-                    add_Song(name, playlist)
+                    print(add_Song(name, playlist))
                 elif(inp2 == '2'):  
                     name = input("\nPlease enter the name: --> ")
-                    delete_Song(name, playlist)
+                    print(delete_Song(name, playlist))
                 elif(inp2 == '3'): 
                     name = input("\nPlease enter the name: --> ")
-                    search_Song(name, playlist)
+                    print(search_Song(name, playlist))
                 elif(inp2 == '4'): 
                     name = input("\nPlease enter the name: --> ")
                     like_Song(name, playlist)
                 elif(inp2 == '5'): 
                     name = input("\nPlease enter the name: --> ")
-                    play_Song(name, playlist)
+                    print(play_Song(name, playlist))
                 elif(inp2 == '6'): 
-                    show_Playlist_Songs(playlist)
+                    print(show_Playlist_Songs(playlist))
                 elif(inp2 == '7'): 
                     playlist = ""
                     continue
