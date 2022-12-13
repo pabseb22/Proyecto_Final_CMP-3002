@@ -229,13 +229,13 @@ class Queues_Implementation:
       for i in range(playlist.l):
         if playlist.queue[i].split('- ',1)[1].lower().replace(" ", "") == song.lower().replace(" ", "") :
             founded = True
-        else:
-            print("Not Found")
-            time.sleep(2)
-            break
       if founded:
           print("Song Found in " + playlist_name)
           time.sleep(2)
+      else:
+          print("Not Found")
+          time.sleep(2)
+
 
 
   def play_Song(song, playlist_name):
