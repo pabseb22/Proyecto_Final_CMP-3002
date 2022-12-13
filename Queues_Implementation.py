@@ -222,8 +222,10 @@ class Queues_Implementation:
         time.sleep(2)
 
 
-  def search_Song(song, playlist):
-      playlist = Queues_Implementation.search_Playlist(playlist)
+  def search_Song(song, playlist_name):
+      song += ".mp3"
+      playlist = Queues_Implementation.search_Playlist(playlist_name)
+      founded = False
       for i in range(playlist.l):
         if playlist.queue[i].split('- ',1)[1].lower().replace(" ", "") == song.lower().replace(" ", "") :
             founded = True
@@ -232,11 +234,12 @@ class Queues_Implementation:
             time.sleep(2)
             break
       if founded:
-          print("Song Found in Queue")
+          print("Song Found in " + playlist_name)
           time.sleep(2)
 
 
   def play_Song(song, playlist_name):
+      song += ".mp3"
       playlist = Queues_Implementation.search_Playlist(playlist_name)
       for i in range(playlist.l):
         if playlist.queue[i].split('- ',1)[1].lower().replace(" ", "") == song.lower().replace(" ", "") :
@@ -294,16 +297,17 @@ class Queues_Implementation:
       
   def Get_Music(path):
     for song in glob.glob(path):
-        os.system('cls')
-        print("Playing Song: ", song)
-        music = AudioPlayer(song)
-        try:
-            music.play()
-        except:
-            print("Ups copyright!")
-        inp = input("Press any key to stop playing ")
-        music.stop()
-        break
+      os.system('cls')
+      print("Playing Song: ", song)
+      music = AudioPlayer(song)
+      try:
+          music.play()
+      except:
+          print("Ups copyright!")
+      inp = input("Press any key to stop playing ")
+      music.stop()
+      break
+  
   
   def play_Music(playlist):
     for j in range(0,playlist.l):

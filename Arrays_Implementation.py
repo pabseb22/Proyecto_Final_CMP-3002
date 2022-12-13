@@ -261,7 +261,7 @@ class Array_implementation:
                 music.stop()
                 break
 
-    def add_Song_to_Playlist(song, array):
+    def add_Song_to_Playlist(array, song):
         song += ".mp3"
         for s in glob.glob("songs/*.mp3"):
             if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
