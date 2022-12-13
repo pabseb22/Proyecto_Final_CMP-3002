@@ -1,6 +1,6 @@
-from linked_list_Implementation  import *
-from Stacks_Implementation import *
-from Arrays_Implementation import *
+from Stacks_Implementation import Stacks_Implementation as Stacks
+from linked_list_Implementation import Linked_list_implementation as Linked_list
+from Arrays_Implementation import Array_implementation as Arrays
 
 from time import time
 def estimate_runtime(function):
@@ -15,29 +15,38 @@ def estimate_runtime(function):
         return t2-t1
     return wrap_f
 
+def main():
+    print("Stacks Analysis:")
+    main_test_function(Stacks)
+    print("\nArrays Analysis:")
+    main_test_function(Arrays)
+    print("\nLinked List Analysis:")
+    main_test_function(Linked_list)
+
+
 @estimate_runtime
-def main_test_function():
-    start_Project()
+def main_test_function(values_func):
+    values_func.start_Project()
     print("Creation testing: ")
-    creation = create_playlists_testing()
+    creation = create_playlists_testing(values_func)
     print("Deletion testing: ")
-    deletion = delete_songs_testing()
+    deletion = delete_songs_testing(values_func)
     print("General test: ")
 
 @estimate_runtime
-def create_playlists_testing():
+def create_playlists_testing(values_func):
     for i in range (1, 100):
-        create_Playlist("Playlist{}".format(i))
+        values_func.create_Playlist("Playlist{}".format(i))
         for h in range (1, 100):
             name = getSong(songs)
-            add_Song_testing(name, "Playlist{}".format(i))
+            values_func.add_Song_testing(name, "Playlist{}".format(i))
 
 @estimate_runtime
-def delete_songs_testing():
+def delete_songs_testing(values_func):
     for i in range (1, 100):
         for h in range (1, 100):
             name = getSong(songs)
-            delete_Song_testing(name, "Playlist{}".format(i))
+            values_func.delete_Song_testing(name, "Playlist{}".format(i))
 
 import random
 def getSong(v) :
@@ -148,6 +157,6 @@ songs = [
  "beattheodds"
 ]
 
-main_test_function()
+main()
 
 
