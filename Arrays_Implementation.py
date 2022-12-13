@@ -67,6 +67,55 @@ class Array_implementation:
                 print("Not Found")
                 time.sleep(2)
 
+        def delete_element2(self,name):
+            if self.n==0:
+                print("Array is empty deletion not Possible")
+                return
+            counter = 0
+            found = False
+            for i in self.array[0:self.l]:
+                if i.split('- ',1)[1].lower().replace(" ", "") == name.lower().replace(" ", ""):
+                    found = True
+                    if counter==self.l-1:
+                        self.array[counter]=0
+                        self.l-=1
+                        print("Succesful Deleted")
+                        time.sleep(2)
+                        return 
+                    for j in range(counter,self.l-1):
+                        self.array[j]=self.array[j+1] 
+                else:
+                    counter += 1
+            if found:
+                print("Succesful Deleted")
+                time.sleep(2)
+                self.array[self.l-1]=0
+                self.l-=1
+            else:
+                print("Not Found")
+                time.sleep(2)
+
+        def delete_element_testing(self,name):
+            if self.n==0:
+                print("Array is empty deletion not Possible")
+                return
+            counter = 0
+            found = False
+            for i in self.array[0:self.l]:
+                if i == name:
+                    found = True
+                    if counter==self.l-1:
+                        self.array[counter]=0
+                        self.l-=1
+                        return 
+                    for j in range(counter,self.l-1):
+                        self.array[j]=self.array[j+1] 
+                else:
+                    counter += 1
+            if found:
+                self.array[self.l-1]=0
+                self.l-=1
+
     # Main Function Startup
     def start_Project():
         global playlists
@@ -133,7 +182,8 @@ class Array_implementation:
         song += ".mp3"
         for x in range(playlists.l):
             if playlists.array[x].name == playlist:
-                Array_implementation.delete_Song_from_Stack(playlists.array[x], song)
+                playlists.array[x].delete_element2(song)
+                
                 
 
     def search_Song(song, playlist):
@@ -164,19 +214,10 @@ class Array_implementation:
             print("--> " + play_queue.array[x])
         time.sleep(2)
 
-    def empty_Queue():
-        for x in range(play_queue.l):
-            play_queue.delete_element(play_queue.array[x])
-            time.sleep(2)
-
     def delete_From_Queue(song):
         song += ".mp3"
-        for s in glob.glob("songs/*.mp3"):
-            if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
-                play_queue.delete_element(s)
-                print("Song " + song + " deleted from queue")
-                time.sleep(2)
-                return
+        play_queue.delete_element2(song)
+
 
     def play_Queue():
         for x in range(play_queue.l):
@@ -220,7 +261,7 @@ class Array_implementation:
                 music.stop()
                 break
 
-    def add_Song_to_Playlist(array, song):
+    def add_Song_to_Playlist(song, array):
         song += ".mp3"
         for s in glob.glob("songs/*.mp3"):
             if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
@@ -228,15 +269,6 @@ class Array_implementation:
                 return "Song " + song + " added"
             elif("Beat the Odds.mp3" == s.split('- ',1)[1]):
                 return "Not Found"
-
-
-    def delete_Song_from_Stack(array, song): 
-        for s in glob.glob("songs/*.mp3"):
-            if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
-                array.delete_element(s)
-                print("Song " + song + " deleted")
-                time.sleep(2)
-                return
                 
 
     def show_playlist(array):
@@ -252,15 +284,6 @@ class Array_implementation:
                 return
         print("Not Found") 
         return
-
-    def like_Song_in_Stack(array, song):
-        song += ".mp3"
-        for x in range(array.l):
-            if (song.lower().replace(" ", "") == array.array[x].split('- ',1)[1].lower().replace(" ", "")):
-                array.liked = True
-                return "Song Liked in " + array.array[x]
-        return "Not Found"
-
 
     def play_Song_in_Stack(array, song):
         song += ".mp3"
@@ -314,5 +337,5 @@ class Array_implementation:
     def delete_Song_from_Array_testing(array, song): 
         for s in glob.glob("songs/*.mp3"):
             if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
-                array.delete_element(s)
+                array.delete_element_testing(s)
                 return

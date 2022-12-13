@@ -74,16 +74,16 @@ class Stacks_Implementation:
     # Main Function Startup
     def start_Project():
         global playlists
-        playlists = Stacks_Implementation.Stack(100, "playlists")
+        playlists = Stacks_Implementation.Stack(1000, "playlists")
 
         global auxiliar
-        auxiliar = Stacks_Implementation.Stack(100, "auxiliar")
+        auxiliar = Stacks_Implementation.Stack(1000, "auxiliar")
 
         global auxiliar2
-        auxiliar2 = Stacks_Implementation.Stack(100, "auxiliar2")
+        auxiliar2 = Stacks_Implementation.Stack(1000, "auxiliar2")
 
         global play_queue
-        play_queue = Stacks_Implementation.Stack(100, "play_queue")
+        play_queue = Stacks_Implementation.Stack(1000, "play_queue")
 
 
 
@@ -125,7 +125,7 @@ class Stacks_Implementation:
         return founded
 
     def create_Playlist(name):
-        name = Stacks_Implementation.Stack(100, name)
+        name = Stacks_Implementation.Stack(1000, name)
         playlists.push(name)
 
     def rename_Playlist(name, newname):
@@ -190,14 +190,19 @@ class Stacks_Implementation:
             playlists.push(auxiliar.pop())
 
     def delete_Song_from_Stack(stack, song):
+        found =  False
         song += ".mp3"
         while not stack.empty():
             if (song.lower().replace(" ", "") == stack.top().split('- ',1)[1].lower().replace(" ", "")):
                 stack.pop()
-                print("Sond Deleted")
+                found = True
+                print("Song Deleted")
                 time.sleep(2)
             else:
                 auxiliar.push(stack.pop())
+        if not found:
+            print("Not Found")
+            time.sleep(2)
         while not auxiliar.empty():
             stack.push(auxiliar.pop())
 
@@ -350,23 +355,6 @@ class Stacks_Implementation:
         else:
             return "Not Found"
 
-    def like_Song_in_Stack(stack, song):
-        song += ".mp3"
-        founded = False
-        while not stack.empty():
-            if (song.lower().replace(" ", "") == stack.top().split('- ',1)[1].lower().replace(" ", "")):
-                founded = True
-                stack.top().liked = True
-                auxiliar.push(stack.pop())
-            else:
-                auxiliar.push(stack.pop())
-        while not auxiliar.empty():
-            stack.push(auxiliar.pop())
-        if founded:
-
-            return "Song Liked in " + stack.name
-        else:
-            return "Not Found"
 
     def play_Song_in_Stack(stack, song):
         song += ".mp3"

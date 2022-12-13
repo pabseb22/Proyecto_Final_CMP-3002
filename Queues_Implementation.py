@@ -87,10 +87,10 @@ class Queues_Implementation:
         
   def start_Project():
       global playlists
-      playlists = Queues_Implementation.QueueMusic(100, "playlists")
+      playlists = Queues_Implementation.QueueMusic(1000, "playlists")
 
       global play_queue
-      play_queue = Queues_Implementation.QueueMusic(100, "play_queue")
+      play_queue = Queues_Implementation.QueueMusic(1000, "play_queue")
 
       
   #CRUD PLAYLIST
@@ -98,7 +98,7 @@ class Queues_Implementation:
       """
       Crear Plalist
       """
-      name = Queues_Implementation.QueueMusic(100, name)
+      name = Queues_Implementation.QueueMusic(1000, name)
       playlists.enqueue(name)
       #return name
 
@@ -147,18 +147,26 @@ class Queues_Implementation:
 
   def play_Playlist(name):
       playlist = Queues_Implementation.search_Playlist(name)
-      for i in range(playlist.l):
-        print(playlist.queue[i])
+      Queues_Implementation.play_Music(playlist)
 
   #CRUD SONG
 
-  def add_Song(name, playlist_name):
+  def add_Song(song, playlist_name):
     """
       Agregar Cancion
     """   
     playlist = Queues_Implementation.search_Playlist(playlist_name)
-    playlist.enqueue(name)
-    print('Song add to ',name)
+    song += ".mp3"
+    for s in glob.glob("songs/*.mp3"):
+        if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
+            playlist.enqueue(s)
+            print("Song " + song + " added")
+            time.sleep(2)
+            break
+        elif("Beat the Odds.mp3" == s.split('- ',1)[1]):
+            print("Not Found")
+            time.sleep(2)
+            break
 
   def validate_Playlists():
       if not playlists.is_empty():
@@ -188,7 +196,7 @@ class Queues_Implementation:
     """  
     playlist = Queues_Implementation.search_Playlist(name)
     for i in range(playlist.l):
-      print(playlist.queue[i])
+      print("--> " + playlist.queue[i])
 
 
 
@@ -196,66 +204,92 @@ class Queues_Implementation:
       """
         Eliminar Cancion
       """
+      found = False
+      name += ".mp3"
       playlist = Queues_Implementation.search_Playlist(playlist_name)
       for i in range(playlist.l):
-        if playlist.queue[i] == name:
+        if playlist.queue[i].split('- ',1)[1].lower().replace(" ", "") == name.lower().replace(" ", "") :
           for j in range(i,playlist.l-1):
             playlist.queue[j] = playlist.queue[j+1]
           playlist.queue[playlist.l-1] = ctypes.py_object
           playlist.l-=1
+          print("Sond Deleted")
+          time.sleep(2)
+          found = True
           break
+      if not found:
+        print("Not Found")
+        time.sleep(2)
 
 
-  def search_Song(song):
-      list_music = os.listdir(path)
-      if song in list_music:
-        return os.path.join(path,song)
-      else:
-        return 'Song doesn\'t exists in directory'
+  def search_Song(song, playlist):
+      playlist = Queues_Implementation.search_Playlist(playlist)
+      for i in range(playlist.l):
+        if playlist.queue[i].split('- ',1)[1].lower().replace(" ", "") == song.lower().replace(" ", "") :
+            founded = True
+        else:
+            print("Not Found")
+            time.sleep(2)
+            break
+      if founded:
+          print("Song Found in Queue")
+          time.sleep(2)
 
 
-  def play_Song(song, playlist):
-      song = Queues_Implementation.search_Playlist(playlist)
-      os.path.join(path,song)
-      music = AudioPlayer(song)
-      music.play()
+  def play_Song(song, playlist_name):
+      playlist = Queues_Implementation.search_Playlist(playlist_name)
+      for i in range(playlist.l):
+        if playlist.queue[i].split('- ',1)[1].lower().replace(" ", "") == song.lower().replace(" ", "") :
+            Queues_Implementation.Get_Music(playlist.queue[i])
+        else:
+            print("Not Found")
 
 
-  def empty_Queue_Songs():
-    play_queue = Queues_Implementation.QueueMusic(100, "play_queue")
-    print('Play Queue empty')
-
-
-  def add_Queue_Song(name):
+  def add_Queue_Song(song, playlist_name):
     """
       Agregar Cancion
     """   
-    play_queue.enqueue(name)
-    print('Song add to ',name)
+    playlist = Queues_Implementation.search_Playlist(playlist_name)
+    song += ".mp3"
+    for i in range(playlist.l):
+        if playlist.queue[i].split('- ',1)[1].lower().replace(" ", "") == song.lower().replace(" ", "") :
+            play_queue.enqueue(playlist.queue[i])
+            print("Song " + song + " added")
+            time.sleep(2)
+            break
+        else:
+            print("Not Found")
 
   def show_Queue():
     """
         Muestra los elementos de la lista
     """  
     for i in range(play_queue.l):
-      print(play_queue.queue[i])
+      print("--> " + play_queue.queue[i])
 
 
   def delete_From_Queue(name):
       """
         Eliminar Cancion
       """
+      found = False
+      name += ".mp3"
       for i in range(play_queue.l):
-        if play_queue.queue[i] == name:
+        if play_queue.queue[i].split('- ',1)[1].lower().replace(" ", "") == name.lower().replace(" ", "") :
           for j in range(i,play_queue.l-1):
             play_queue.queue[j] = play_queue.queue[j+1]
           play_queue.queue[play_queue.l-1] = ctypes.py_object
           play_queue.l-=1
+          print("Sond Deleted")
+          time.sleep(2)
+          found = True
           break
+      if not found:
+        print("Not Found")
+        time.sleep(2)
 
-  def play_Queue(name):
-    for i in range(play_queue.l):
-      print(play_queue.queue[i])
+  def play_Queue():
+      Queues_Implementation.play_Music(play_queue)
     
       
   def Get_Music(path):
@@ -267,33 +301,48 @@ class Queues_Implementation:
             music.play()
         except:
             print("Ups copyright!")
+        inp = input("Press any key to stop playing ")
+        music.stop()
+        break
+  
+  def play_Music(playlist):
+    for j in range(0,playlist.l):
+        os.system('cls')
+        print("Playing Song: ", playlist.queue[j])
+        music = AudioPlayer(playlist.queue[j])
+        try:
+            music.play()
+        except:
+            print("Song not available")
         print("Options:")
         print("1. Next Song")
-        print("2. Return Home")
+        print("2. Return")
         print("Please enter your option: ")
         inp = input("--> ")
         if(inp == '1'):
             music.stop()
         elif( inp == '2'):
+            music.stop()
             break
 
-  def add_Song_testing(name, playlist_name):
-    """
-      Agregar Cancion para el test
-    """   
-    playlist = Queues_Implementation.search_Playlist(playlist_name)
-    playlist.enqueue(name)
 
+  def add_Song_testing(song, playlist_name):
+    playlist = Queues_Implementation.search_Playlist(playlist_name)
+    song += ".mp3"
+    for s in glob.glob("songs/*.mp3"):
+        if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
+            playlist.enqueue(s)
+            break
+        elif("Beat the Odds.mp3" == s.split('- ',1)[1]):
+            break
 
   def delete_Song_testing(name, playlist_name):
-      """
-        Eliminar Cancion para el test
-      """
-      playlist = Queues_Implementation.search_Playlist(playlist_name)
-      for i in range(playlist.l):
-        if playlist.queue[i] == name:
-          for j in range(i,playlist.l-1):
-            playlist.queue[j] = playlist.queue[j+1]
-          playlist.queue[playlist.l-1] = ctypes.py_object
-          playlist.l-=1
-          break
+    name += ".mp3"
+    playlist = Queues_Implementation.search_Playlist(playlist_name)
+    for i in range(playlist.l):
+      if playlist.queue[i].split('- ',1)[1].lower().replace(" ", "") == name.lower().replace(" ", "") :
+        for j in range(i,playlist.l-1):
+          playlist.queue[j] = playlist.queue[j+1]
+        playlist.queue[playlist.l-1] = ctypes.py_object
+        playlist.l-=1
+        break

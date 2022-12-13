@@ -35,12 +35,16 @@ def main_function():
         implementation = input("\n--> ")
         values_func = ''
         if (implementation == '1'):
+            implementation = 'Stacks'
             values_func = Stacks
         elif(implementation == '4'):
+            implementation = 'Queues'
             values_func = Queues
         elif(implementation == '2'):
+            implementation = 'Arrays'
             values_func = Arrays
         elif(implementation == '3'):
+            implementation = 'Linked Lists'
             values_func = Linked_list
         else:
             continue

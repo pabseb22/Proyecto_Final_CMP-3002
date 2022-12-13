@@ -37,6 +37,7 @@ class Linked_list_implementation:
             respuesta = ''
             node = self.head_node
             if node:
+                respuesta += '\n --> '
                 respuesta += str(node.val)
                 #print(node.val, end = '')
             while node:
@@ -373,10 +374,8 @@ class Linked_list_implementation:
         else:
             print("No playlists")
     def show_Queue():
-        if play_queue.get_head_node():
-            print(play_queue.list_traversed_1())
-        else:
-            print("No playlists")
+        if play_queue:
+            print(play_queue.list_traversed())
         print("")
     
     def add_Queue_Song(song, playlist):
@@ -392,9 +391,7 @@ class Linked_list_implementation:
                 print("No playlist found ")
         else:
             print("No playlists")
-    def empty_Queue():
-        node=play_queue.get_head_node()
-        node=None
+
     def delete_From_Queue(song):
         song += ".mp3"
         if play_queue.get_head_node():
@@ -403,6 +400,8 @@ class Linked_list_implementation:
                 if (song.lower().replace(" ", "") == node.val.split('- ',1)[1].lower().replace(" ", "")):
                     s_node=Linked_list_implementation.Node(song.lower().replace(" ", ""))
                     play_queue.delete_node(s_node)
+                    print("Song Deleted")
+                    time.sleep(2)
                     break
                 node=node.next_node
             if node==None:
