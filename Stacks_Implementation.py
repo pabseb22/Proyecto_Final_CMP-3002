@@ -2,6 +2,9 @@
 
 import ctypes
 import time
+import os
+import glob
+from audioplayer import AudioPlayer
 
 class Stack(object):
     """
@@ -75,6 +78,9 @@ def start_Project():
     global auxiliar
     auxiliar = Stack(100, "auxiliar")
 
+    global auxiliar2
+    auxiliar2 = Stack(100, "auxiliar2")
+
     global play_queue
     play_queue = Stack(100, "play_queue")
 
@@ -82,6 +88,40 @@ def start_Project():
 
 
 # Functions Required in Main
+
+def validate_Playlists():
+    if not playlists.empty():
+        return True
+    else:
+        return False
+
+def validate_Playlist(playlist):
+    founded = False
+    while not playlists.empty():
+        if(playlists.top().name == playlist):
+            founded = True
+            auxiliar.push(playlists.pop())
+        else:
+            auxiliar.push(playlists.pop())
+    while not auxiliar.empty():
+        playlists.push(auxiliar.pop())
+    return founded
+
+
+def validate_Playlist_songs(playlist):
+    founded = False
+    while not playlists.empty():
+        if(playlists.top().name == playlist):
+            if(not playlists.top().empty()):
+                founded = True
+            else:
+                founded = False
+            auxiliar.push(playlists.pop())
+        else:
+            auxiliar.push(playlists.pop())
+    while not auxiliar.empty():
+        playlists.push(auxiliar.pop())
+    return founded
 
 def create_Playlist(name):
     name = Stack(100, name)
@@ -142,21 +182,22 @@ def delete_Song(song, playlist):
     while not auxiliar.empty():
         playlists.push(auxiliar.pop())
 
+def delete_Song_from_Stack(stack, song):
+    song += ".mp3"
+    while not stack.empty():
+        if (song.lower().replace(" ", "") == stack.top().split('- ',1)[1].lower().replace(" ", "")):
+            stack.pop()
+            print("Sond Deleted")
+            time.sleep(2)
+        else:
+            auxiliar.push(stack.pop())
+    while not auxiliar.empty():
+        stack.push(auxiliar.pop())
+
 def search_Song(song, playlist):
     while not playlists.empty():
         if(playlists.top().name == playlist):
             print(search_Song_in_Stack(playlists.top(), song))
-            time.sleep(2)
-            auxiliar.push(playlists.pop())
-        else:
-            auxiliar.push(playlists.pop())
-    while not auxiliar.empty():
-        playlists.push(auxiliar.pop())
-
-def like_Song(song, playlist):
-    while not playlists.empty():
-        if(playlists.top().name == playlist):
-            print(like_Song_in_Stack(playlists.top(), song))
             time.sleep(2)
             auxiliar.push(playlists.pop())
         else:
@@ -180,7 +221,6 @@ def show_Playlist_Songs(playlist):
     while not playlists.empty():
         if(playlists.top().name == playlist):
             show_playlist(playlists.top())
-            key = input("Press any key to continue")
             auxiliar.push(playlists.pop())
         else:
             auxiliar.push(playlists.pop())
@@ -202,7 +242,6 @@ def show_Queue():
     print("")
     while not play_queue.empty():
         print("--> " + play_queue.top())
-        time.sleep(2)
         auxiliar.push(play_queue.pop())
     while not auxiliar.empty():
         play_queue.push(auxiliar.pop())
@@ -216,6 +255,8 @@ def delete_From_Queue(song):
     while not play_queue.empty():
         if (song.lower().replace(" ", "") == play_queue.top().split('- ',1)[1].lower().replace(" ", "")):
             play_queue.pop()
+            print("Sond Deleted")
+            time.sleep(2)
         else:
             auxiliar.push(play_queue.pop())
     while not auxiliar.empty():
@@ -245,9 +286,6 @@ def play_Queue():
     while not auxiliar.empty():
         play_queue.push(auxiliar.pop())
 
-import os
-import glob
-from audioplayer import AudioPlayer
 
 def play_Music(stack):
     while not stack.empty():
@@ -280,16 +318,6 @@ def add_Song_to_Playlist(stack, song):
             return "Song " + song + " added"
         elif("Beat the Odds.mp3" == s.split('- ',1)[1]):
             return "Not Found"
-
-def delete_Song_from_Stack(stack, song):
-    song += ".mp3"
-    while not stack.empty():
-        if (song.lower().replace(" ", "") == stack.top().split('- ',1)[1].lower().replace(" ", "")):
-            stack.pop()
-        else:
-            auxiliar.push(stack.pop())
-    while not auxiliar.empty():
-        stack.push(auxiliar.pop())
 
 def show_playlist(stack):
     while not stack.empty():
@@ -382,3 +410,43 @@ def add_Song_to_Queue(stack, song):
     else:
         return "Not Found"
 
+
+
+def add_Song_testing(song, playlist):
+    while not playlists.empty():
+        if(playlists.top().name == playlist):
+            add_Song_to_Playlist_testing(playlists.top(), song)
+            auxiliar.push(playlists.pop())
+        else:
+            auxiliar.push(playlists.pop())
+    while not auxiliar.empty():
+        playlists.push(auxiliar.pop())
+
+def add_Song_to_Playlist_testing(stack, song):
+    song += ".mp3"
+    for s in glob.glob("songs/*.mp3"):
+        if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
+            stack.push(s)
+        elif("Beat the Odds.mp3" == s.split('- ',1)[1]):
+            break
+
+def delete_Song_testing(song, playlist):
+    while not playlists.empty():
+        if(playlists.top().name == playlist):
+            delete_Song_from_Stack_testing(playlists.top(), song)
+            auxiliar2.push(playlists.pop())
+        else:
+            auxiliar2.push(playlists.pop())
+    while not auxiliar2.empty():
+        playlists.push(auxiliar2.pop())
+        
+def delete_Song_from_Stack_testing(stack, song):
+    song += ".mp3"
+    while not stack.empty():
+        if (song.lower().replace(" ", "") == stack.top().split('- ',1)[1].lower().replace(" ", "")):
+            stack.pop()
+        else:
+            auxiliar.push(stack.pop())
+
+    while not auxiliar.empty():
+        stack.push(auxiliar.pop())

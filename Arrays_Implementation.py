@@ -40,7 +40,7 @@ class Array(Array):
             print("Array is empty deletion not Possible")
             return
         counter = 0
-
+        
         for i in self.array[0:self.l-1]:
             if i == name:
                 if counter==self.l-1:
@@ -60,14 +60,8 @@ def start_Project():
     global playlists
     playlists = Array("playlists")
 
-    global auxiliar
-    auxiliar = Array("auxiliar")
-
     global play_queue
     play_queue = Array("play_queue")
-
-
-
 
 # Functions Required in Main
 
@@ -92,39 +86,38 @@ def play_Playlist(name):
         if playlists.array[x].name == name:
             play_Music(playlists.array[x])
             
-
 def add_Song(song, playlist):
     for x in range(playlists.l):
         if playlists.array[x].name == playlist:
             print(add_Song_to_Playlist(playlists.array[x], song))
-            time.sleep(2)
-            
+            time.sleep(2)   
 
 def delete_Song(song, playlist):
     song += ".mp3"
     for x in range(playlists.l):
         if playlists.array[x].name == playlist:
-            delete_Song_from_Stack(playlists.array[x], song)
-            
+            delete_Song_from_Array(playlists.array[x], song)
+
+def delete_Song_from_Array(array, song): 
+    for s in glob.glob("songs/*.mp3"):
+        if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
+            array.delete_element(s)
+            print("Song " + song + " deleted")
+            time.sleep(2)
+            return
 
 def search_Song(song, playlist):
     for x in range(playlists.l):
         if playlists.array[x].name == playlist:
-            search_Song_in_Stack(playlists.array[x], song)
-            time.sleep(2)
-
-def like_Song(song, playlist):
-    for x in range(playlists.l):
-        if playlists.array[x].name == playlist:
-            print(like_Song_in_Stack(playlists.array[x], song))
+            search_Song_in_Array(playlists.array[x], song)
             time.sleep(2)
 
 def play_Song(song, playlist):
     for x in range(playlists.l):
         if playlists.array[x].name == playlist:
-            print(play_Song_in_Stack(playlists.array[x], song))
+            print(play_Song_in_Array(playlists.array[x], song))
             time.sleep(2)
-
+            
 def show_Playlist_Songs(playlist):
     for x in range(playlists.l):
         if playlists.array[x].name == playlist:
@@ -155,6 +148,12 @@ def delete_From_Queue(song):
             print("Song " + song + " deleted from queue")
             time.sleep(2)
             return
+
+def like_Song(song, playlist):
+    for x in range(playlists.l):
+        if playlists.array[x].name == playlist:
+            print(like_Song_in_Array(playlists.array[x], song))
+            time.sleep(2)
 
 def play_Queue():
     for x in range(play_queue.l):
@@ -207,23 +206,14 @@ def add_Song_to_Playlist(array, song):
             array.insert_to_tail(s)
             return "Song " + song + " added"
         elif("Beat the Odds.mp3" == s.split('- ',1)[1]):
-            return "Not Found"
-
-def delete_Song_from_Stack(array, song): 
-    for s in glob.glob("songs/*.mp3"):
-        if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
-            array.delete_element(s)
-            print("Song " + song + " deleted")
-            time.sleep(2)
-            return
-            
+            return "Not Found"            
 
 def show_playlist(array):
     for x in range(array.l):
         print("--> " + array.array[x])
     time.sleep(1)
 
-def search_Song_in_Stack(array, song):
+def search_Song_in_Array(array, song):
     song += ".mp3"
     for x in range(array.l):
         if (song.lower().replace(" ", "") == array.array[x].split('- ',1)[1].lower().replace(" ", "")):
@@ -232,7 +222,7 @@ def search_Song_in_Stack(array, song):
     print("Not Found") 
     return
 
-def like_Song_in_Stack(array, song):
+def like_Song_in_Array(array, song):
     song += ".mp3"
     for x in range(array.l):
         if (song.lower().replace(" ", "") == array.array[x].split('- ',1)[1].lower().replace(" ", "")):
@@ -240,8 +230,7 @@ def like_Song_in_Stack(array, song):
             return "Song Liked in " + array.array[x]
     return "Not Found"
 
-
-def play_Song_in_Stack(array, song):
+def play_Song_in_Array(array, song):
     song += ".mp3"
     for x in range(array.l):
         if (song.lower().replace(" ", "") == array.array[x].split('- ',1)[1].lower().replace(" ", "")):
@@ -262,7 +251,6 @@ def play(song):
     except:
         return "Error while playing"
     
-
 def add_Song_to_Queue(array, song):
     song += ".mp3"
     for x in range(array.l):
@@ -270,3 +258,31 @@ def add_Song_to_Queue(array, song):
             play_queue.insert_to_tail(array.array[x])
             return "Song added to queue"
     return "Not Found"
+
+def add_Song_testing(song, playlist):
+    for x in range(playlists.l):
+        if playlists.array[x].name == playlist:
+            add_Song_to_Playlist_testing(playlists.array[x], song)
+
+def add_Song_to_Playlist_testing(array, song):
+    song += ".mp3"
+    for s in glob.glob("songs/*.mp3"):
+        if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
+            array.insert_to_tail(s)
+            print("Song " + song + " added")
+            return 
+        elif("Beat the Odds.mp3" == s.split('- ',1)[1]):
+            return "Not Found"   
+
+def delete_Song_testing(song, playlist):
+    song += ".mp3"
+    for x in range(playlists.l):
+        if playlists.array[x].name == playlist:
+            delete_Song_from_Array_testing(playlists.array[x], song)
+        
+def delete_Song_from_Array_testing(array, song):
+    for s in glob.glob("songs/*.mp3"):
+        if (song.lower().replace(" ", "") == s.split('- ',1)[1].lower().replace(" ", "")):
+            array.delete_element(s)
+            print("Song " + song + " deleted")
+            return
