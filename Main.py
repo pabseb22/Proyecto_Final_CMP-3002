@@ -1,4 +1,4 @@
-from Queues_Implementation import *
+from Stacks_Implementation import *
 
 class bcolors:
     HEADER = '\033[95m'
@@ -14,7 +14,7 @@ class bcolors:
 # Main Implementation       
 
 import os
-       
+
 
 def main_function():
     start_Project()
@@ -177,12 +177,4 @@ def main_function():
                 control = False
 
 
-
 main_function()
-
-# Missing Work:
-# 1. Reproduce the queue backwards
-# 2. Main Function to test all implementations
-# Add more colors
-# Add restrictions if some information is empty
-# Correct the timer.sleep() in show queue 

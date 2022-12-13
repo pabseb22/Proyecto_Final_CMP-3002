@@ -15,7 +15,7 @@ music_list = ['song1','song2','song3','song4']
 """
 
 class Queue(object):
-    def _init_(self, n, name):
+    def __init__(self, n, name):
         self.l = 0
         self.n = n
         self.name = name
@@ -87,13 +87,10 @@ class QueueMusic(Queue):
       
 def start_Project():
     global playlists
-    playlists = Queue(100, "playlists")
-
-    global auxiliar
-    auxiliar = Queue(100, "auxiliar")
+    playlists = QueueMusic(100, "playlists")
 
     global play_queue
-    play_queue = Queue(100, "play_queue")
+    play_queue = QueueMusic(100, "play_queue")
 
     
 #CRUD PLAYLIST
@@ -105,60 +102,54 @@ def create_Playlist(name):
     playlists.enqueue(name)
     #return name
 
-def add_playlist(self, name):
-  """
-    Agregar playlist
-  """
-  self.enqueue(QueueMusic(100,name))
-
-def show_Playlists(self):
+def show_Playlists():
   """
     Mostrar Playlist
   """
-  for i in range(self.l):
-    print(self.queue[i].name)
+  for i in range(playlists.l):
+    print(playlists.queue[i].name)
 
-def search_Playlist(self, name):
+def search_Playlist(name):
   """
     Buscar elemento en la cola
   """ 
-  for i in range(self.l):
-    if name == self.queue[i].name:
-      return self.queue[i]
+  for i in range(playlists.l):
+    if name == playlists.queue[i].name:
+      return playlists.queue[i]
 
-def rename_Playlist(self, name, newname):
+def rename_Playlist( name, newname):
   """
     Renombrar Playlist
   """
-  playlist = self.search_Playlist(name)
+  playlist = playlists.search_Playlist(name)
   playlist.name = newname
 
 
-def delete_Playlist(self,name):
+def delete_Playlist(name):
     """
       Eliminar Playlist
     """
-    for i in range(self.l):
-      if self.queue[i].name == name:
-        for j in range(i,self.l-1):
-          self.queue[j] = self.queue[j+1]
-        self.queue[self.l-1] = ctypes.py_object
-        self.l-=1
+    for i in range(playlists.l):
+      if playlists.queue[i].name == name:
+        for j in range(i,playlists.l-1):
+          playlists.queue[j] = playlists.queue[j+1]
+        playlists.queue[playlists.l-1] = ctypes.py_object
+        playlists.l-=1
         break
 
 
-def play_Playlist(self,name):
-    playlist = self.search_Playlist(name)
+def play_Playlist(name):
+    playlist = playlists.search_Playlist(name)
     for i in range(playlist.l):
       print(playlist.queue[i])
 
 #CRUD SONG
 
-def add_Song(self,playlist_name,name):
+def add_Song(playlist_name,name):
   """
     Agregar Cancion
   """   
-  playlist = self.search_Playlist(playlist_name)
+  playlist = playlists.search_Playlist(playlist_name)
   playlist.enqueue(name)
   print('Song add to ',name)
 
@@ -168,37 +159,37 @@ def validate_Playlists():
     else:
         return False
 
-def validate_Playlist(self, playlist):
-  playlist = self.search_Playlist(playlist)
+def validate_Playlist(playlist):
+  playlist = playlists.search_Playlist(playlist)
   if playlist:
       return True
   else:
       return False
 
 
-def validate_Playlist_songs(self, playlist):
-    playlist = self.search_Playlist(playlist)
+def validate_Playlist_songs(playlist):
+    playlist = playlists.search_Playlist(playlist)
     if not playlist.is_empty():
         return True
     else:
         return False
 
 
-def show_playlist(self,name):
+def show_Playlist_Songs(name):
   """
       Muestra los elementos de la lista
   """  
-  playlist = self.search_Playlist(name)
+  playlist = playlists.search_Playlist(name)
   for i in range(playlist.l):
     print(playlist.queue[i])
 
 
 
-def delete_Song(self,playlist_name,name):
+def delete_Song(playlist_name,name):
     """
       Eliminar Cancion
     """
-    playlist = self.search_Playlist(playlist_name)
+    playlist = playlists.search_Playlist(playlist_name)
     for i in range(playlist.l):
       if playlist.queue[i] == name:
         for j in range(i,playlist.l-1):
@@ -208,7 +199,7 @@ def delete_Song(self,playlist_name,name):
         break
 
 
-def search_Song(self, song):
+def search_Song(song):
     list_music = os.listdir(path)
     if song in list_music:
       return os.path.join(path,song)
@@ -216,16 +207,48 @@ def search_Song(self, song):
       return 'Song doesn\'t exists in directory'
 
 
-def play_Song(self, song, playlist):
-    song = self.search_Playlist(self, song, playlist)
+def play_Song(song, playlist):
+    song = playlists.search_Playlist(playlists, song, playlist)
     os.path.join(path,song)
     music = AudioPlayer(song)
     music.play()
 
 
-def empty_Queue_Songs(self):
+def empty_Queue_Songs():
   play_queue = QueueMusic(100, "play_queue")
   print('Play Queue empty')
+
+
+def add_Queue_Song(name):
+  """
+    Agregar Cancion
+  """   
+  play_queue.enqueue(name)
+  print('Song add to ',name)
+
+def show_Queue():
+  """
+      Muestra los elementos de la lista
+  """  
+  for i in range(play_queue.l):
+    print(play_queue.queue[i])
+
+
+def delete_From_Queue(name):
+    """
+      Eliminar Cancion
+    """
+    for i in range(play_queue.l):
+      if play_queue.queue[i] == name:
+        for j in range(i,play_queue.l-1):
+          play_queue.queue[j] = play_queue.queue[j+1]
+        play_queue.queue[play_queue.l-1] = ctypes.py_object
+        play_queue.l-=1
+        break
+
+def play_Queue(name):
+  for i in range(play_queue.l):
+    print(play_queue.queue[i])
   
     
 def Get_Music(path):
@@ -247,19 +270,19 @@ def Get_Music(path):
       elif( inp == '2'):
           break
 
-def add_Song_testing(self,playlist_name,name):
+def add_Song_testing(playlist_name,name):
   """
     Agregar Cancion para el test
   """   
-  playlist = self.search_Playlist(playlist_name)
+  playlist = playlists.search_Playlist(playlist_name)
   playlist.enqueue(name)
 
 
-def delete_Song_testing(self,playlist_name,name):
+def delete_Song_testing(playlist_name,name):
     """
       Eliminar Cancion para el test
     """
-    playlist = self.search_Playlist(playlist_name)
+    playlist = playlists.search_Playlist(playlist_name)
     for i in range(playlist.l):
       if playlist.queue[i] == name:
         for j in range(i,playlist.l-1):
