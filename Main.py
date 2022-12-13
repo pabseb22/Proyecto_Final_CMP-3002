@@ -64,7 +64,7 @@ def main_function():
             print(bcolors.FAIL + "\n5. Exit" + bcolors.ENDC)
             print("\nPlease enter your option: ")
             inp = input("--> ")
-            if(inp == '1'):
+            if(inp == '1'): # Playlists Management
                 control1 = True
                 while control1:
                     os.system('cls')
@@ -101,7 +101,7 @@ def main_function():
                             newname = input("Please enter the new name: --> ")
                             values_func.rename_Playlist(name, newname)
 
-            elif(inp == '2' and values_func.validate_Playlists()):
+            elif(inp == '2' and values_func.validate_Playlists()): # Songs Management
                 control2 = True
                 playlist = ""
                 while control2:
@@ -158,7 +158,7 @@ def main_function():
                         elif(inp2 == '8'):
                             control2 = False
 
-            elif(inp == '3' and values_func.validate_Playlists()):
+            elif(inp == '3' and values_func.validate_Playlists()): # Play Queue Management
                 control3 = True
                 playlist = ""
                 while control3:
@@ -202,9 +202,9 @@ def main_function():
                             values_func.play_Queue()
                         elif(inp3 == '6'):
                             control3 = False  
-            elif(inp == '4'):
+            elif(inp == '4'): # Change current Implementation
                 control = False
-            elif(inp == '5'):
+            elif(inp == '5'):  # Exit de Program
                 os.system('cls')
                 print(bcolors.FAIL + "Are you sure you want to Leave? " + bcolors.ENDC)
                 exit = input("\nY/N?  --> ")
